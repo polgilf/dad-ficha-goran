@@ -5,7 +5,8 @@ import {catalog,type RuleCard} from './rules';
 import {normalize} from './calculations';
 import {skills,narrative} from './data';
 import {translate,type UIKey} from './ui';
-import {Rock,Modal} from './widgets';
+import {Modal} from './widgets';
+import goranLogo from './assets/goran-logo.webp';
 import {Dashboard} from './Resources';
 import {RuleView} from './RuleView';
 import {Sheet,SpellSection,TraitsSection,InventorySection,StorySection,CombatSection,Notes,PrintInventory} from './Sections';
@@ -24,7 +25,7 @@ export default function App(){
  const section=state.preferences.section;
  return <div className={'app '+state.preferences.depth}>
  <a className="skip-link" href="#content">{t('Saltar a la ficha','Skip to sheet')}</a>
- <header className="masthead"><div className="identity"><Rock/><div><h1>Goran<span aria-hidden="true">.</span></h1><p>{t('Humano · Paladín 2','Human · Paladin 2')}</p></div></div>
+ <header className="masthead"><div className="identity"><img className="brand-logo" src={goranLogo} width={54} height={54} alt={t('Emblema de Goran: dragón dorado','Goran emblem: golden dragon')}/><div><h1>Goran<span aria-hidden="true">.</span></h1><p>{t('Humano · Paladín 2','Human · Paladin 2')}</p></div></div>
  <div className="preferences"><label><span className="sr-only">{t('Idioma','Language')}</span><select aria-label={t('Idioma','Language')} value={lang} onChange={e=>update(s=>({...s,preferences:{...s.preferences,language:e.target.value as 'es'|'en'}}))}><option value="es">Español</option><option value="en">English</option></select></label><label><span className="sr-only">{t('Profundidad','Depth')}</span><select aria-label={t('Profundidad','Depth')} value={state.preferences.depth} onChange={e=>update(s=>({...s,preferences:{...s.preferences,depth:e.target.value as 'quick'|'detailed'}}))}><option value="quick">{t('Sintético','Quick')}</option><option value="detailed">{t('Detallado','Detailed')}</option></select></label></div></header>
  <div className="toolbar interactive"><button className="search-trigger" onClick={()=>setSearchOpen(true)}><span aria-hidden="true">⌕</span> {translate(lang,'search')}</button><button onClick={()=>{setQuery('');setSearchOpen(true);}}>{translate(lang,'glossary')}</button></div>
  {store.failure&&<aside className="storage-warning" role="alert"><p>{translate(lang,store.failure as UIKey)}</p><div className="actions"><button onClick={store.exportCurrent}>{t('Exportar mi copia','Export my copy')}</button>{store.failure==='conflict'?<><button onClick={store.restoreOther}>{t('Cargar la otra pestaña','Load the other tab')}</button><button onClick={async()=>{if(await store.ask(t('¿Conservar esta copia y guardar la otra como recuperable?','Keep this copy and preserve the other as recovery?')))store.keepLocal();}}>{t('Conservar esta copia','Keep this copy')}</button></>:<><button onClick={store.exportRaw}>{t('Exportar datos originales','Export original data')}</button><button onClick={async()=>{if(await store.ask(t('¿Intentar guardar esta copia? Antes se exportarán los datos dañados si existen.','Try saving this copy? Damaged data will be exported first if present.')))store.keepLocal();}}>{t('Reintentar guardado','Retry saving')}</button></>}</div></aside>}
