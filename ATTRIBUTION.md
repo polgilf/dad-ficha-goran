@@ -7,3 +7,5 @@ The application supplies original explanations, translations and a character-spe
 Tough, Tavern Brawler and non-SRD Fighting Styles are referenced by name and explained using concise original descriptions checked against licensed 2024 sources; they are not represented as SRD material. No complete manuals, artwork from the books, private sheets or proprietary source files are distributed.
 
 This is an independent fan project without official endorsement.
+
+The website title uses Cinzel by The Cinzel Project Authors (https://github.com/NDISCOVER/Cinzel), licensed under the SIL Open Font License 1.1. The font is served locally; the copyright notice and full license are included in [public/licenses/Cinzel-OFL.txt](public/licenses/Cinzel-OFL.txt) and published at `licenses/Cinzel-OFL.txt`.
