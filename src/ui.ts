@@ -1,0 +1,33 @@
+import { pair, type Language } from './model';
+export const ui = {
+ sheet:pair('Ficha','Sheet'),combat:pair('Combate','Combat'),spells:pair('Conjuros','Spells'),traits:pair('Rasgos','Traits'),inventory:pair('Inventario','Inventory'),story:pair('Historia','Story'),settings:pair('Ajustes','Settings'),
+ hp:pair('PG actuales','Current HP'),temp:pair('PG temporales','Temporary HP'),slots:pair('Espacios de nivel 1','Level 1 slots'),lay:pair('Imposición de manos','Lay on Hands'),smite:pair('Castigo gratuito','Free Smite'),hitDice:pair('Dados de golpe','Hit Dice'),inspiration:pair('Inspiración heroica','Heroic Inspiration'),deathSuccess:pair('Éxitos contra muerte','Death save successes'),deathFail:pair('Fallos contra muerte','Death save failures'),exhaustion:pair('Agotamiento','Exhaustion'),
+ unknown:pair('Sin registrar','Unknown'),pending:pair('Pendiente','Pending'),confirmed:pair('Confirmado','Confirmed'),imported:pair('Ficha anterior','Previous sheet'),calculated:pair('Calculado','Calculated'),proposed:pair('Propuesta','Proposed'),
+ save:pair('Guardar','Save'),cancel:pair('Cancelar','Cancel'),close:pair('Cerrar','Close'),edit:pair('Editar','Edit'),detail:pair('Ver detalle','Read details'),hide:pair('Ocultar detalle','Hide details'),
+ bounds:pair('Introduce un entero entre cero y el máximo indicado.','Enter a whole number between zero and the stated maximum.'),
+ resolveHp:pair('Confirma primero los PG máximos en Datos por confirmar.','Confirm maximum HP in Pending details first.'),
+ unknownResource:pair('Registra primero cuántos usos quedan. Desconocido no equivale a cero.','First record the remaining uses. Unknown is not zero.'),
+ notEnough:pair('No quedan suficientes usos de ese recurso.','Not enough of that resource remains.'),
+ unknownHp:pair('Registra primero los PG actuales, temporales y máximos.','First record current, temporary and maximum HP.'),
+ positive:pair('Introduce un entero mayor que cero.','Enter a whole number greater than zero.'),
+ dice:pair('Introduce de uno a dos resultados de d10, del 1 al 10, separados por coma.','Enter one or two d10 results, from 1 to 10, separated by commas.'),
+ restHp:pair('Para iniciar un descanso largo debes tener al menos 1 PG registrado.','Starting a long rest requires at least 1 recorded HP.'),
+ notPrepared:pair('Este conjuro todavía no está preparado.','This spell is not prepared yet.'),
+ notFree:pair('Solo Castigo divino tiene este uso gratuito.','Only Divine Smite has this free use.'),
+ invalid:pair('Archivo inválido o datos incompatibles. La sesión actual se conserva.','Invalid file or incompatible data. Your current session is preserved.'),
+ future:pair('Esta copia pertenece a una versión futura. Actualiza la aplicación antes de importarla.','This backup uses a future version. Update the app before importing it.'),
+ fileSize:pair('El archivo excede el límite de 4 MB.','The file exceeds the 4 MB limit.'),
+ storage:pair('No se pudo guardar en este navegador. Tu estado sigue en memoria: expórtalo antes de cerrar.','Could not save in this browser. Your state remains in memory: export it before closing.'),
+ storageLoad:pair('El almacenamiento está bloqueado o contiene datos dañados. No los hemos sustituido. Puedes exportar los datos originales y trabajar en memoria.','Storage is blocked or contains damaged data. It has not been replaced. You can export the original data and work in memory.'),
+ conflict:pair('Otra pestaña ha cambiado la ficha. El guardado está pausado para proteger ambas versiones. Exporta esta copia antes de elegir.','Another tab changed the sheet. Saving is paused to protect both versions. Export this copy before choosing.'),
+ saved:pair('Guardado en este navegador','Saved in this browser'),saving:pair('Guardando…','Saving…'),memory:pair('Solo en memoria','In memory only'),
+ localInfo:pair('Los cambios se guardan en este navegador y dispositivo. No se sincronizan con GitHub ni entre móvil y ordenador. Exportar e importar permite trasladarlos. Cada visitante recibe la ficha inicial y modifica su copia local.','Changes are saved in this browser and device. They do not sync with GitHub or between phone and computer. Export and import transfer your data. Each visitor gets the initial sheet and edits their local copy.'),
+ fullConfirm:pair('¿Iniciar con PG y recursos completos? Se reemplazarán los valores actuales y temporales, y se limpiarán las salvaciones contra muerte.','Start with full HP and resources? Current and temporary HP will be replaced and death saves cleared.'),
+ replaceConcentration:pair('Ya hay una concentración activa. ¿Sustituirla por la nueva?','Concentration is already active. Replace it with the new effect?'),
+ steps:pair('Cómo se usa','How to use it'),example:pair('Con los números de Goran','Using Goran’s numbers'),mistakes:pair('Evita este error','Watch out'),source:pair('Fuente','Source'),
+ search:pair('Buscar reglas, ataques, objetos…','Search rules, attacks, items…'),glossary:pair('Glosario','Glossary'),noResults:pair('No hay resultados. Prueba también en español o inglés.','No results. Try either Spanish or English.'),
+ historical:pair('Histórico; sin confirmar hoy','Historical; not confirmed today'),owned:pair('Poseído','Owned'),absent:pair('No poseído','Not owned'),
+ provenance:pair('Procedencia','Provenance'),notes:pair('Notas','Notes'),quantity:pair('Cantidad actual','Current quantity'),weight:pair('Peso unitario (kg)','Unit weight (kg)'),equipped:pair('Equipado','Equipped'),
+};
+export type UIKey=keyof typeof ui;
+export const translate=(language:Language,key:UIKey)=>ui[key][language];
