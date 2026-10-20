@@ -1,7 +1,7 @@
 import {initialState} from './data';
 import {fullResources} from './session';
 import type {State} from './model';
-/** Explicit adoption only. Browser load never calls this function. */
+/** Apply the confirmed baseline while retaining unrelated local content. */
 export function adoptConfirmedProfile(current:State):State {
  const next=initialState();
  next.preferences={...current.preferences};

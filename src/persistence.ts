@@ -2,7 +2,7 @@ import { backupSchema, stateSchema, type State } from './model';
 import { initialState } from './data';
 import { maxHp } from './calculations';
 export const PREFIX='dad-ficha-goran:v1:';
-export const HEAD=PREFIX+'head', RECOVERY=PREFIX+'recovery';
+export const HEAD=PREFIX+'head', RECOVERY=PREFIX+'recovery', PREVIOUS_PROFILE=PREFIX+'before-session-three';
 const parts=['character','session','preferences','inventory','money','tableRules'] as const;
 export class PersistenceError extends Error {}
 export function validateState(input:unknown):State {
@@ -59,6 +59,13 @@ export class Repository {
   }
  }
  backup(state:State){if(!this.storage)throw new PersistenceError('storage');this.storage.setItem(RECOVERY,exportJson(state));}
+ ensurePreviousProfile(state:State){
+  if(!this.storage)throw new PersistenceError('storage');
+  const existing=this.storage.getItem(PREVIOUS_PROFILE);
+  if(existing!==null){parseBackup(existing);return;}
+  this.storage.setItem(PREVIOUS_PROFILE,exportJson(state));
+ }
+ previousProfile():State|null{try{const raw=this.storage?.getItem(PREVIOUS_PROFILE);return raw?parseBackup(raw):null;}catch{return null;}}
  recovery():State|null{try{const raw=this.storage?.getItem(RECOVERY);return raw?parseBackup(raw):null;}catch{return null;}}
  raw():string {
   const data:Record<string,string|null>={};

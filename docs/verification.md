@@ -2,7 +2,7 @@
 
 ## Automated checks
 
-58 Vitest tests pass, including the session-3 additions described below. Coverage includes the six attributes and saves, all 18 skills, STR dependencies, independent spell DC, HP confirmation and Constitution adjustments, Fighting Style conditions, unknown inventory and money, partial weights, resource bounds, temporary HP absorption/replacement, separate free Smite and slots, preparation checks, concentration/Favor coexistence, short/long rests, JSON validation, corrupt and future-version rejection, quota-safe writes, recovery copies, conflicting tabs, bilingual search normalization and complete rule text in all four presentation combinations.
+67 Vitest tests pass, including the session-3 additions described below. Coverage includes the six attributes and saves, all 18 skills, STR dependencies, independent spell DC, HP confirmation and Constitution adjustments, Fighting Style conditions, unknown inventory and money, partial weights, resource bounds, temporary HP absorption/replacement, separate free Smite and slots, preparation checks, concentration/Favor coexistence, short/long rests, JSON validation, corrupt and future-version rejection, quota-safe writes, recovery copies, conflicting tabs, bilingual search normalization and complete rule text in all four presentation combinations.
 
 TypeScript checking and the Vite production build pass. The generated entry and assets use the project base path. The dependency installation reported no vulnerabilities.
 
@@ -36,3 +36,6 @@ The production build was opened from the project subdirectory in a fresh browser
 
 The production preview was checked at 390 px: 26/26 HP, session 3, AC 17 and full resources are visible with no horizontal document overflow. Through the UI, changing arrows from five to six changed known load from 17 to 18 slots; gold 24.75 persisted after reload; selecting Defense changed AC to 18; Blessed Warrior was absent from the selector. Test values were restored locally. Console errors and warnings were empty.
 The explicit profile-adoption flow was also exercised in the browser: a local 18/26-HP session was previewed and replaced by the full session-3 profile; restoring the previous copy returned to 18/26 HP. The confirmed profile was reapplied successfully. English Detailed inventory rendering and console logs were checked; no errors or warnings were recorded. The temporary mobile viewport override was reset.
+## Automatic default and rollback, October 20, 2026
+
+67 tests pass. Nine additional tests cover automatic legacy adoption with backup before commit, preserving existing session-3 resource usage, reload without refills, persistent rollback, a durable earlier sheet independent from import backups, recovering prior manual-upgrade backups, quota failures, tab conflicts and explicit historical imports. Browser testing confirmed that Settings > Return to previous sheet restored the historical HP/AC and that reloading did not reapply session 3. No console warnings or errors were recorded.

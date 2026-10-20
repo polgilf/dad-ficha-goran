@@ -23,7 +23,7 @@ Vite serves the project under `/dad-ficha-goran/`. Navigation uses hashes, so re
 
 The first screen shows HP, AC, primary resources, and the maul shortcut. The six sections cover the sheet, combat, spells, traits, inventory, and story. Search accepts Spanish and English names and aliases without case or accent sensitivity. Quick cards can open individual explanations without changing the global depth.
 
-Open **Datos por confirmar / Pending details** to confirm maximum HP, choose a Fighting Style, record languages, resolve knife equivalence and add missing background details. The October 20 confirmations start new copies at session 3 with 26 HP and full resources. Existing browser copies are preserved; **Cargar ficha de sesión 3 / Load session 3 sheet** applies the confirmed update explicitly, with a recoverable previous copy.
+Open **Datos por confirmar / Pending details** to confirm maximum HP, choose a Fighting Style, record languages, resolve knife equivalence and add missing background details. The October 20 confirmations start new copies at session 3 with 26 HP and full resources. Older browser copies are automatically upgraded to session 3 once, with their previous state saved first. An existing session-3 game is not reset. **Ajustes > Volver a la ficha anterior / Settings > Return to previous sheet** restores the pre-update copy, and that choice survives reloads. If this browser has no previous copy, the historical reference sheet is available instead.
 
 The spell catalog explains Cure Wounds, Bless, Divine Favor, and Divine Smite. Cure Wounds, Bless and Divine Favor are confirmed and selected in new copies. Smite is always prepared and has a separate free use. The app tracks resource expenditure, not action legality; check the displayed timing and component requirements.
 
@@ -52,7 +52,8 @@ Blocked storage, quota errors or corruption produce a visible warning. Work rema
 - `src/model.ts`: validated schemas and stable identifiers.
 - `src/data.ts`: historical starting data and bilingual narrative.
 - `src/confirmed-data.ts`: October 20 session-3 confirmations, table slots and proposed origins.
-- `src/profile-update.ts`: explicit application of confirmed defaults with preserved local fields.
+- `src/profile-update.ts`: application of confirmed defaults with preserved local fields.
+- `src/startup.ts`: one-time automatic adoption, backup-before-commit and persistent explicit choices.
 - `src/calculations.ts`: pure derived calculations.
 - `src/session.ts`: resource transitions.
 - `src/*-rules.ts`, `src/rules.ts`: original bilingual explanations and live examples.
@@ -61,6 +62,7 @@ Blocked storage, quota errors or corruption produce a visible warning. Work rema
 - `src/store.tsx`: application state, autosave, conflict handling and undo.
 - `src/app.test.ts`: historical calculation, resource, validation and persistence regression tests.
 - `src/session-three.test.ts`: confirmed defaults, 1A grouping, armor, money, migration and explicit-update tests.
+- `src/startup.test.ts`: automatic adoption, non-resetting reloads, rollback, quota and cross-tab safety.
 
 Edit historical data in `src/data.ts` and current confirmed defaults in `src/confirmed-data.ts`. This changes the starting sheet for new visitors, not saved browser sessions. Change shared mechanics in the calculation or rule modules, rather than duplicating the four presentation combinations.
 
