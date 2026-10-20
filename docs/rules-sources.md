@@ -50,3 +50,9 @@ The confirmed Farmer substitution (Nature to Athletics) and the historical DM eq
 - [MDN localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage), browser-local persistence and storage exceptions.
 
 See [ATTRIBUTION.md](../ATTRIBUTION.md) for the SRD license notice.
+
+## October 20, 2026 update
+
+The player's October 20 confirmations and 1A clarification supply the new character data and slot rules. They are separate from official encumbrance weights. No official kg weights are imported into the slot system. Capacity 20 is recorded as declared, rather than inferred from Strength.
+
+The [2024 Equipment armor table](https://www.dndbeyond.com/sources/dnd/br-2024/equipment) was checked for Splint Armor: AC 17 without DEX, Heavy armor, STR 15, Stealth disadvantage; below the Strength requirement speed falls by 10 ft. Defense adds 1 while wearing armor. Clothes, helmet and champion belt add no invented AC bonus.

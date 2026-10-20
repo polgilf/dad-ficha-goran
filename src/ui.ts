@@ -4,7 +4,7 @@ export const ui = {
  hp:pair('PG actuales','Current HP'),temp:pair('PG temporales','Temporary HP'),slots:pair('Espacios de nivel 1','Level 1 slots'),lay:pair('Imposición de manos','Lay on Hands'),smite:pair('Castigo gratuito','Free Smite'),hitDice:pair('Dados de golpe','Hit Dice'),inspiration:pair('Inspiración heroica','Heroic Inspiration'),deathSuccess:pair('Éxitos contra muerte','Death save successes'),deathFail:pair('Fallos contra muerte','Death save failures'),exhaustion:pair('Agotamiento','Exhaustion'),
  unknown:pair('Sin registrar','Unknown'),pending:pair('Pendiente','Pending'),confirmed:pair('Confirmado','Confirmed'),imported:pair('Ficha anterior','Previous sheet'),calculated:pair('Calculado','Calculated'),proposed:pair('Propuesta','Proposed'),
  save:pair('Guardar','Save'),cancel:pair('Cancelar','Cancel'),close:pair('Cerrar','Close'),edit:pair('Editar','Edit'),detail:pair('Ver detalle','Read details'),hide:pair('Ocultar detalle','Hide details'),
- bounds:pair('Introduce un entero entre cero y el máximo indicado.','Enter a whole number between zero and the stated maximum.'),
+ bounds:pair('Introduce un valor válido entre cero y el máximo indicado.','Enter a valid value between zero and the stated maximum.'),
  resolveHp:pair('Confirma primero los PG máximos en Datos por confirmar.','Confirm maximum HP in Pending details first.'),
  unknownResource:pair('Registra primero cuántos usos quedan. Desconocido no equivale a cero.','First record the remaining uses. Unknown is not zero.'),
  notEnough:pair('No quedan suficientes usos de ese recurso.','Not enough of that resource remains.'),

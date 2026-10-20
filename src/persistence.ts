@@ -12,14 +12,14 @@ export function validateState(input:unknown):State {
  return state;
 }
 export function exportJson(state:State):string {
- return JSON.stringify({schemaVersion:1,exportedAt:new Date().toISOString(),state},null,2);
+ return JSON.stringify({schemaVersion:2,exportedAt:new Date().toISOString(),state},null,2);
 }
 export function parseBackup(raw:string):State {
  if(raw.length>4000000)throw new PersistenceError('fileSize');
  let value:unknown;
  try{value=JSON.parse(raw);}catch{throw new PersistenceError('invalid');}
- if(typeof value==='object'&&value!==null&&'schemaVersion' in value&&Number(value.schemaVersion)>1)throw new PersistenceError('future');
- try{return validateState(backupSchema.parse(value).state);}catch{throw new PersistenceError('invalid');}
+ if(typeof value==='object'&&value!==null&&'schemaVersion' in value&&Number(value.schemaVersion)>2)throw new PersistenceError('future');
+ try{const envelope=value as {schemaVersion:number;exportedAt:string;state:unknown};if(envelope.schemaVersion===1)value={...envelope,schemaVersion:2,state:migrateState(envelope.state,1)};return validateState(backupSchema.parse(value).state);}catch{throw new PersistenceError('invalid');}
 }
 export class Repository {
  constructor(public storage:Storage|null) {}
@@ -32,10 +32,10 @@ export class Repository {
    const revision=this.head();
    if(!revision)return {state:initialState(),revision:null,error:null};
    const parsed=JSON.parse(revision);
-   if(parsed.schemaVersion!==1||typeof parsed.id!=='string')throw new Error('invalid');
+   if(![1,2].includes(parsed.schemaVersion)||typeof parsed.id!=='string')throw new Error('invalid');
    const state:Record<string,unknown>={};
    for(const part of parts){const raw=this.storage!.getItem(PREFIX+parsed.id+':'+part);if(raw===null)throw new Error('missing');state[part]=JSON.parse(raw);}
-   return {state:validateState(state),revision,error:null};
+   return {state:validateState(migrateState(state,parsed.schemaVersion)),revision,error:null};
   }catch{return {state:initialState(),revision:null,error:'storageLoad'};}
  }
  save(state:State,expected:string|null):string {
@@ -47,7 +47,7 @@ export class Repository {
   try{
    for(const part of parts){const key=PREFIX+id+':'+part;this.storage!.setItem(key,JSON.stringify(state[part]));written.push(key);}
    if(this.head()!==expected)throw new PersistenceError('conflict');
-   const revision=JSON.stringify({schemaVersion:1,id,previous:previousId});
+   const revision=JSON.stringify({schemaVersion:2,id,previous:previousId});
    this.storage!.setItem(HEAD,revision);
    // The pointer is the commit. Retain the previous complete generation.
    if(obsolete)for(const part of parts){try{this.storage!.removeItem(PREFIX+obsolete+':'+part);}catch{/* harmless stale snapshot */}}
@@ -72,4 +72,19 @@ export function browserRepository():Repository {
 export function download(name:string,text:string,type='application/json'){
  const url=URL.createObjectURL(new Blob([text],{type}));
  const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+/** Version 1 preserves its session and physical weights; slots are never inferred from kg. */
+export function migrateState(input:unknown,version:number):unknown {
+ if(version!==1)return input;
+ const migrated=structuredClone(input);
+ if(migrated&&typeof migrated==='object'&&'character' in migrated){
+  const c=migrated.character;
+  if(c&&typeof c==='object'&&'style' in c){
+   const record=c as Record<string,unknown>;
+   if(record.style==='blessed'||(Array.isArray(record.cantrips)&&record.cantrips.length)){record.modifications={...(record.modifications as Record<string,string>??{}),legacyBlessedWarrior:JSON.stringify({style:record.style,cantrips:record.cantrips??[]})};
+   if(record.style==='blessed')record.style='pending';record.cantrips=[];}
+  }
+ }
+ return migrated;
 }

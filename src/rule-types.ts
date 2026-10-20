@@ -1,5 +1,5 @@
 import { pair, type Localized } from './model';
-export type RuleCard={id:string;name:Localized;group:'combat'|'spells'|'traits'|'glossary';quick:Localized;explanation:Localized;steps:Localized;example:Localized;mistakes:Localized;source:string;section:string;aliases:string[]};
+export type RuleCard={id:string;name:Localized;group:'combat'|'spells'|'traits'|'glossary';quick:Localized;explanation:Localized;steps:Localized;example:Localized;mistakes:Localized;source:string;section:string;aliases:string[];consultedAt?:string};
 export const sources={
 srd:{name:'SRD 5.2.1 · 2024',url:'https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf'},
 classes:{name:'D&D Beyond · Basic Rules 2024',url:'https://www.dndbeyond.com/sources/dnd/br-2024/character-classes'},

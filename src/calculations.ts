@@ -15,13 +15,15 @@ export function derive(state:State) {
  const modifiers=Object.fromEntries(abilityIds.map(a=>[a,mod(c.abilities[a])])) as Record<typeof abilityIds[number],number>;
  const trained=(id:string)=>c.skills.includes(id as Character['skills'][number]);
  const equipped=(id:string)=>state.inventory.some(i=>i.id===id&&i.equipped&&i.possession!=='absent');
- const armor=equipped('chain-shirt');
+ const armorId=equipped('splint')?'splint':equipped('chain-shirt')?'chain-shirt':null;
+ const armor=armorId!==null;
+ const speedFeet=armorId==='splint'&&c.abilities.str<15?20:rules.speedFeet;
  const skillBonuses=Object.fromEntries(skills.map(s=>[s.id,modifiers[s.ability]+(trained(s.id)?rules.proficiency:0)]));
  const saves=Object.fromEntries(abilityIds.map(a=>[a,modifiers[a]+(c.saves.includes(a)?rules.proficiency:0)]));
  const maulEquipped=equipped('maul');
  return {modifiers,saves,skills:skillBonuses,maxHp:maxHp(c),fixedHp:10+6+rules.level*(modifiers.con+rules.toughPerLevel),
- ac:armor?rules.armorBase+Math.min(rules.armorDexCap,modifiers.dex)+(c.style==='defense'?1:0):10+modifiers.dex,
- armor,initiative:modifiers.dex,passive:10+skillBonuses.perception,
+ ac:(armorId==='splint'?17:armorId==='chain-shirt'?rules.armorBase+Math.min(rules.armorDexCap,modifiers.dex):10+modifiers.dex)+(armor&&c.style==='defense'?1:0),
+ armor,armorId,speedFeet,speedMeters:speedFeet*0.3,stealthDisadvantage:armorId==='splint',initiative:modifiers.dex,passive:10+skillBonuses.perception,
  melee:modifiers.str+rules.proficiency,ranged:modifiers.dex+rules.proficiency+(c.style==='archery'?2:0),
  topple:rules.dcBase+modifiers.str+rules.proficiency,spellDc:rules.dcBase+modifiers.cha+rules.proficiency,spellAttack:modifiers.cha+rules.proficiency,
  unarmedDie:c.style==='unarmed'?(state.inventory.some(i=>i.equipped&&['maul','shortbow','crossbow','knife'].includes(i.id))?6:8):4,
@@ -41,3 +43,18 @@ export function weightTotal(state:State) {
  return {known,partial};
 }
 export const normalize=(value:string)=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+
+export function itemSlots(item:State['inventory'][number]):number|null {
+ if(item.possession==='absent'||item.quantity===0)return 0;
+ if(item.possession!=='owned'||item.quantity===null||item.slotCost===null||item.slotCost===undefined)return null;
+ return Math.ceil(item.quantity/(item.slotSize??1))*item.slotCost;
+}
+export function slotTotal(state:State){
+ let known=0;const unknown:string[]=[];
+ for(const item of state.inventory){const amount=itemSlots(item);if(amount===null)unknown.push(item.id);else known+=amount;}
+ return {known,partial:unknown.length>0,unknown,capacity:state.tableRules.slotCapacity??null};
+}
+export function equipItem(state:State,id:string,equipped:boolean):State{
+ const isArmor=['chain-shirt','splint'].includes(id);
+ return {...state,inventory:state.inventory.map(item=>item.id===id?{...item,equipped}:isArmor&&equipped&&['chain-shirt','splint'].includes(item.id)?{...item,equipped:false}:item)};
+}

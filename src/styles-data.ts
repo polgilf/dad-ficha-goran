@@ -1,7 +1,7 @@
 import {pair as p} from './model';
 export const styleDescriptions={
 pending:p('Ningún bono aplicado. Elige expresamente un estilo cuando lo confirmes.','No bonus applied. Explicitly choose a style when confirmed.'),
-defense:p('Mientras llevas armadura ligera, media o pesada: +1 CA. Se aplica al camisote equipado.','While wearing Light, Medium or Heavy armor: +1 AC. Applied to the equipped chain shirt.'),
+defense:p('Mientras llevas armadura ligera, media o pesada: +1 CA. Se aplica a la armadura equipada, incluida la de láminas.','While wearing Light, Medium or Heavy armor: +1 AC. Applied to equipped armor, including splint armor.'),
 'great-weapon':p('Al tirar daño de un ataque con arma cuerpo a cuerpo A dos manos o Versátil que sostengas con ambas manos, trata cada 1 o 2 como 3. No es repetir dados. Se muestra en el maul; no cambia su bono fijo.','When rolling damage for an attack with a Two-Handed or Versatile Melee weapon held in both hands, treat each 1 or 2 as 3. This is not rerolling. Shown on the maul; its flat bonus is unchanged.'),
 archery:p('+2 a tiradas de ataque con armas a distancia. Se aplica al arco y la ballesta, no al daño ni a una daga arrojada.','+2 to attack rolls with Ranged weapons. Applied to bow and crossbow, not damage or a thrown dagger.'),
 'two-weapon':p('Al hacer el ataque extra de la propiedad Ligera, añade el modificador de característica a su daño. Necesitas otra arma Ligera: no se añade equipo ni ataques al maul.','Add the ability modifier to damage of the extra attack from the Light property. You need another Light weapon: no equipment or maul attacks are added.'),

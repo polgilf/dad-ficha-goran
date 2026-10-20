@@ -2,7 +2,7 @@
 
 ## Automated checks
 
-39 Vitest tests pass. Coverage includes the six attributes and saves, all 18 skills, STR dependencies, independent spell DC, HP confirmation and Constitution adjustments, Fighting Style conditions, unknown inventory and money, partial weights, resource bounds, temporary HP absorption/replacement, separate free Smite and slots, preparation checks, concentration/Favor coexistence, short/long rests, JSON validation, corrupt and future-version rejection, quota-safe writes, recovery copies, conflicting tabs, bilingual search normalization and complete rule text in all four presentation combinations.
+58 Vitest tests pass, including the session-3 additions described below. Coverage includes the six attributes and saves, all 18 skills, STR dependencies, independent spell DC, HP confirmation and Constitution adjustments, Fighting Style conditions, unknown inventory and money, partial weights, resource bounds, temporary HP absorption/replacement, separate free Smite and slots, preparation checks, concentration/Favor coexistence, short/long rests, JSON validation, corrupt and future-version rejection, quota-safe writes, recovery copies, conflicting tabs, bilingual search normalization and complete rule text in all four presentation combinations.
 
 TypeScript checking and the Vite production build pass. The generated entry and assets use the project base path. The dependency installation reported no vulnerabilities.
 
@@ -29,3 +29,10 @@ The print stylesheet declares A4, exposes all character sections in the selected
 A clean npm ci completed successfully, followed by all 39 tests and a production build.
 
 The production build was opened from the project subdirectory in a fresh browser tab. It rendered the initial pending HP and resources correctly with no console errors or warnings. Export JSON produced a browser download successfully.
+
+## Session 3 update, October 20, 2026
+
+58 automated tests pass. The 19 new cases cover full session-3 defaults, confirmed spells/languages/masteries, no Blessed Warrior option, AC 17/18, heavy-armor movement and stealth, mutually exclusive armor, 1A rounding at 0/1/5/6/10/11 units, partial load, decimal gold, no invented bolts, current rule-card wording, version-1 migration, archived legacy cantrips, retained notes/preferences/style and recoverable prior stored generations.
+
+The production preview was checked at 390 px: 26/26 HP, session 3, AC 17 and full resources are visible with no horizontal document overflow. Through the UI, changing arrows from five to six changed known load from 17 to 18 slots; gold 24.75 persisted after reload; selecting Defense changed AC to 18; Blessed Warrior was absent from the selector. Test values were restored locally. Console errors and warnings were empty.
+The explicit profile-adoption flow was also exercised in the browser: a local 18/26-HP session was previewed and replaced by the full session-3 profile; restoring the previous copy returned to 18/26 HP. The confirmed profile was reapplied successfully. English Detailed inventory rendering and console logs were checked; no errors or warnings were recorded. The temporary mobile viewport override was reset.

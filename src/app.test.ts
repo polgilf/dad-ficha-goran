@@ -1,5 +1,5 @@
 import {describe,it,expect} from 'vitest';
-import {initialState} from './data';
+import {legacyInitialState as initialState} from './data';
 import {derive,maxHp,concentrationDc,normalize,weightTotal} from './calculations';
 import {damage,heal,spend,setResource,fullResources,shortRest,longRest,cast} from './session';
 import {Repository,HEAD,PREFIX,parseBackup,exportJson,validateState} from './persistence';
@@ -47,7 +47,7 @@ describe('Resource transitions',()=>{
 });
 describe('Copies and transactional persistence',()=>{
  it('roundtrips every domain including unicode, portrait-free notes and preferences',()=>{const s=ready();s.session.notes='<script>alert("x")</script> Ñ';s.preferences={language:'en',depth:'detailed',section:'inventory'};s.tableRules.notes='A local ruling';expect(parseBackup(exportJson(s))).toEqual(s);});
- it('rejects corrupt, future, incomplete and invalid resource imports',()=>{expect(()=>parseBackup('{')).toThrow('invalid');expect(()=>parseBackup('{"schemaVersion":2}')).toThrow('future');expect(()=>parseBackup('{"schemaVersion":1}')).toThrow('invalid');const s=ready();s.session.slots=3;expect(()=>parseBackup(exportJson(s))).toThrow('invalid');});
+ it('rejects corrupt, future, incomplete and invalid resource imports',()=>{expect(()=>parseBackup('{')).toThrow('invalid');expect(()=>parseBackup('{"schemaVersion":3}')).toThrow('future');expect(()=>parseBackup('{"schemaVersion":1}')).toThrow('invalid');const s=ready();s.session.slots=3;expect(()=>parseBackup(exportJson(s))).toThrow('invalid');});
  it('rejects duplicate choices and unconfirmed maximum HP with recorded current HP',()=>{const s=ready();s.character.prepared=['bless','bless'];expect(()=>validateState(s)).toThrow();const unknown=initialState();unknown.session.hp=10;expect(()=>validateState(unknown)).toThrow();});
  it('loads saved state rather than resetting initial values',()=>{const memory=new MemoryStorage(),repo=new Repository(memory),s=ready();s.session.hp=13;repo.save(s,null);expect(new Repository(memory).load().state.session.hp).toBe(13);});
  it('quota failure leaves the previous complete snapshot readable',()=>{const memory=new MemoryStorage(),repo=new Repository(memory),s=ready();const revision=repo.save(s,null);memory.failAfter=memory.writes+2;s.session.hp=7;expect(()=>repo.save(s,revision)).toThrow('storage');expect(repo.head()).toBe(revision);expect(repo.load().state.session.hp).toBe(26);});
